@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEE Test</title>
+</head>
+<body>
+    <script>
+        console.log("Creating the event source")
+        const evtSource = new EventSource("http://localhost:5098/see");
+
+        evtSource.onmessage = (evt) => {
+            console.log(evt.data);
+        }
+    </script>
+</body>
+</html>
