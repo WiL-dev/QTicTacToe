@@ -4,24 +4,36 @@ namespace QTicTacToe.Api.SSE.Helpers;
 
 public static class ServerSentEventHelper
 {
-    public static async Task WriteSseEventAsync(this HttpResponse response, MoveOutput move)
+    public static void WriteSseMove(this HttpResponse response, MoveOutput move)
     {
-        await response.WriteSseField("Id", "random");
-        await response.WriteSseField("event", "random");
-        await response.WriteSseField("X", $"x is {move.X}");
-        await response.WriteSseField("Y", $"y is {move.Y}");
-        await response.WriteSseField("Z", $"z is {move.Z}");
-        await response.WriteSseField("IsWinner", $"is winner? {move.IsWinner}");
-        await response.WriteSseBlockEnding();
+        response.WriteSseField("Id", "random");
+        response.WriteSseField("event", "random");
+        response.WriteSseField("data", $"x is {move.X}");
+        response.WriteSseField("data", $"y is {move.Y}");
+        response.WriteSseField("data", $"z is {move.Z}");
+        response.WriteSseField("data", $"is winner? {move.IsWinner}");
+        response.WriteSseBlockEnding();
     }
 
-    public static Task WriteSseField(this HttpResponse response, string field, string data)
+    public static void WriteSseTest(this HttpResponse response)
     {
-        return response.WriteAsync($"{field}: {data}\n");
+        response.WriteSseField("id", "random");
+        response.WriteSseField("event", "random");
+        response.WriteSseField("data", "x is move.X");
+        response.WriteSseField("data", "y is move.Y");
+        response.WriteSseField("data", "z is move.Z");
+        response.WriteSseField("data", "is winner? move.IsWinner");
+        response.WriteSseBlockEnding();
     }
 
-    public static Task WriteSseBlockEnding(this HttpResponse response)
+    private static async void WriteSseField(this HttpResponse response, string field, string data)
     {
-        return response.WriteAsync("\n");
+        await response.WriteAsync($"{field}: {data}\n");
+    }
+
+    private static async void WriteSseBlockEnding(this HttpResponse response)
+    {
+        await response.WriteAsync("\n");
+        await response.Body.FlushAsync();
     }
 }

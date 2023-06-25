@@ -2,20 +2,32 @@ using System.Collections.Concurrent;
 
 namespace QTicTacToe.Api.SSE.Services;
 
-public class ServerSentEventsService
+public class ServerSentEventsService : IServerSentEventsService
 {
-    private readonly ConcurrentDictionary<Guid, ServerSentEventsClient> _clients = new ConcurrentDictionary<Guid, ServerSentEventsClient>();
+    private readonly ConcurrentDictionary<string, ServerSentEventsClient> _clients = new ConcurrentDictionary<string, ServerSentEventsClient>();
 
-    public Guid AddClient(ServerSentEventsClient client)
+    public void AddClient(ServerSentEventsClient client, string clientId)
     {
-        Guid clientId = Guid.NewGuid();
         _clients.TryAdd(clientId, client);
-        return clientId;
     }
 
-    public void RemoveClient(Guid clientId)
+    public void RemoveClient(string clientId)
     {
         ServerSentEventsClient? client;
         _clients.TryRemove(clientId, out client);
+    }
+
+    public void sendEvent(string clientId) {
+        ServerSentEventsClient? client;
+        _clients.TryGetValue(clientId, out client);
+
+        if (client is not null)
+        {
+            client.SendEventAsync();
+        } else
+        // TODO: Handle the missing client warning better
+        {
+            System.Console.WriteLine($"No client created with id {clientId}");
+        }
     }
 }

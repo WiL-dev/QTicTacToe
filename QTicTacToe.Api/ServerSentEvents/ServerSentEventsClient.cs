@@ -12,7 +12,11 @@ public class ServerSentEventsClient
         _response = response;
     }
 
-    public Task SendEventAsync(MoveOutput move) {
-        return _response.WriteSseEventAsync(move);
+    public void SendEventMoveAsync(MoveOutput move) {
+        _response.WriteSseMove(move);
+    }
+
+    public void SendEventAsync() {
+        _response.WriteSseTest();
     }
 }

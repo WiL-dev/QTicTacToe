@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using QTicTacToe.Api.SSE.Services;
+using QTicTacToe.Api.SSE;
 
 namespace QTicTacToe.Api.Controllers;
 
@@ -6,23 +8,26 @@ namespace QTicTacToe.Api.Controllers;
 [Route("[controller]")]
 public class MovesOutputController : ControllerBase
 {
-    [HttpGet("/see")]
-    public async Task SEE() {
-        System.Console.WriteLine("SEE request");
+    private readonly IServerSentEventsService _serverSentEventsSevice;
 
-        HttpContext.Response.Headers.Add("Access-Control-Allow-origin", "http://localhost:8000");
+    public MovesOutputController(IServerSentEventsService serverSentEventsSevice)
+    {
+        _serverSentEventsSevice = serverSentEventsSevice;
+    }
+
+    [HttpGet("/connect")]
+    public async Task SeeConnect(string client_id) {
+        HttpContext.Response.ContentType = "text/event-stream";
+        HttpContext.Response.Headers.Add("Connection", "keep-alive");
         HttpContext.Response.Headers.Add("Cache-Control", "no-cache");
-        HttpContext.Response.Headers.Add("Content-Type", "text/event-stream");
+        HttpContext.Response.Headers.Add("Access-Control-Allow-origin", "http://localhost:8000");
         await HttpContext.Response.Body.FlushAsync();
 
-        await HttpContext.Response.WriteAsync("id: 1231\n");
-        await HttpContext.Response.WriteAsync("event: event_name\n");
-        await HttpContext.Response.WriteAsync($"data: Hi v1\n");
-        await HttpContext.Response.WriteAsync("\n");
-        await HttpContext.Response.Body.FlushAsync();
+        ServerSentEventsClient seeClient = new ServerSentEventsClient(HttpContext.Response);
+        _serverSentEventsSevice.AddClient(seeClient, client_id);
 
         HttpContext.RequestAborted.WaitHandle.WaitOne();
 
-        System.Console.WriteLine("End");
+        _serverSentEventsSevice.RemoveClient(client_id);
     }
 }

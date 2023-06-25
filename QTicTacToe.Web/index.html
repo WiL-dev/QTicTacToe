@@ -8,7 +8,7 @@
 <body>
     <script>
         console.log("Creating the event source")
-        const evtSource = new EventSource("http://localhost:5098/see");
+        const evtSource = new EventSource("http://localhost:5098/connect?client_id=123");
 
         evtSource.onmessage = (evt) => {
             console.log(evt.data);
