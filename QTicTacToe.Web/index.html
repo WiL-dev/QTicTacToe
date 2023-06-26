@@ -6,12 +6,51 @@
     <title>SEE Test</title>
 </head>
 <body>
+    <input id="isMockupServer" type="checkbox" onchange="updateServerType(this)">Is mock up server?</input>
+    <hr />
+    <button onclick="connect()">Connect</button>
+    <button onclick="testMove()">Send move</button>
     <script>
-        console.log("Creating the event source")
-        const evtSource = new EventSource("http://localhost:5098/connect?client_id=123");
+        const mockupMove = {
+            x: 1,
+            y: 2,
+            z: 1
+        };
 
-        evtSource.onmessage = (evt) => {
-            console.log(evt.data);
+        const mockupBackendUrl = "https://4ced842e-f28b-44bf-9b00-1a38fbacfdbb.mock.pstmn.io";
+        const testBackendUrl = "http://localhost:5098";
+
+        var isMockUpServerChk = document.getElementById('isMockupServer');
+        var backendUrl;
+        updateServerType(isMockUpServerChk);
+
+        function updateServerType(isMockUpServerChk) {
+            backendUrl = isMockUpServerChk.checked
+                ? mockupBackendUrl
+                : testBackendUrl;
+        }
+
+        async function testMove() {
+            let requestUrl = `${backendUrl}/move?client_id=123`;
+            console.log(requestUrl);
+
+            const response = await fetch(requestUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(mockupMove)
+            });
+            const jsonResponse = await response.json();
+            console.log('Move sent - response: ', jsonResponse);
+        }
+
+        function connect() {
+            const evtSource = new EventSource(`${backendUrl}/connect?client_id=123`);
+
+            evtSource.onmessage = (evt) => {
+                console.log(evt.data);
+            }
         }
     </script>
 </body>
