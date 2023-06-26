@@ -1,8 +1,9 @@
-# Tasks lists
+# Main goal
 
-To build a 3D (Cubic) TicTacToe online, first I want to create the API, and then focus on the UI
+To build a 3D (Q-bic) TicTacToe online, first I want to create the API, and then focus on the UI
 
-## API:
+## Task list
+
 - Create a model of response (MoveOutput)
 - Create the API endpoint
 - Send the response
