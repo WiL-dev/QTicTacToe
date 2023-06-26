@@ -1,3 +1,5 @@
+using QTicTacToe.Api.SSE.Models;
+
 namespace QTicTacToe.Api.SSE.Services;
 
 public interface IServerSentEventsService

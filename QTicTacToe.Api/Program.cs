@@ -1,6 +1,20 @@
 using QTicTacToe.Api.SSE.Services;
 
+var corsPolicy = "localhostCorsPolicy";
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: corsPolicy,
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:8000")
+                .AllowAnyHeader();
+        }
+    );
+});
 
 // Add services to the container.
 builder.Services.AddSingleton<IServerSentEventsService, ServerSentEventsService>();
@@ -19,6 +33,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(corsPolicy);
 
 app.UseAuthorization();
 

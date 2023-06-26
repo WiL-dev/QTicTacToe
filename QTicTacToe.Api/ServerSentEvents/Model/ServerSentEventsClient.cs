@@ -1,7 +1,7 @@
 using QTicTacToe.Api.Models;
 using QTicTacToe.Api.SSE.Helpers;
 
-namespace QTicTacToe.Api.SSE;
+namespace QTicTacToe.Api.SSE.Models;
 
 public class ServerSentEventsClient
 {
@@ -12,11 +12,11 @@ public class ServerSentEventsClient
         _response = response;
     }
 
-    public void SendEventMoveAsync(MoveOutput move) {
+    public void SendEventMove(MoveOutput move) {
         _response.WriteSseMove(move);
     }
 
-    public void SendEventAsync() {
+    public void SendEvent() {
         _response.WriteSseTest();
     }
 }

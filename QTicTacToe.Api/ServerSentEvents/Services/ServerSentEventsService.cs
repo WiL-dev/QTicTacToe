@@ -1,10 +1,17 @@
 using System.Collections.Concurrent;
+using QTicTacToe.Api.SSE.Models;
 
 namespace QTicTacToe.Api.SSE.Services;
 
 public class ServerSentEventsService : IServerSentEventsService
 {
     private readonly ConcurrentDictionary<string, ServerSentEventsClient> _clients = new ConcurrentDictionary<string, ServerSentEventsClient>();
+    private readonly ILogger<ServerSentEventsService> _iLogger;
+
+    public ServerSentEventsService(ILogger<ServerSentEventsService> iLogger)
+    {
+        _iLogger = iLogger;
+    }
 
     public void AddClient(ServerSentEventsClient client, string clientId)
     {
@@ -23,11 +30,10 @@ public class ServerSentEventsService : IServerSentEventsService
 
         if (client is not null)
         {
-            client.SendEventAsync();
+            client.SendEvent();
         } else
-        // TODO: Handle the missing client warning better
         {
-            System.Console.WriteLine($"No client created with id {clientId}");
+            _iLogger.LogError($"No client created with id {clientId}");
         }
     }
 }
