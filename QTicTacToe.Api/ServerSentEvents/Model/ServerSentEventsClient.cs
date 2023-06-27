@@ -15,8 +15,4 @@ public class ServerSentEventsClient
     public void SendEventMove(MoveOutput move) {
         _response.WriteSseMove(move);
     }
-
-    public void SendEvent() {
-        _response.WriteSseTest();
-    }
 }

@@ -2,12 +2,14 @@ namespace QTicTacToe.Api.Models;
 
 public class MoveInput
 {
-    public int x { get; set; }
-    public int y { get; set; }
-    public int z { get; set; }
+    public int X { get; set; }
+    public int Y { get; set; }
+    public int Z { get; set; }
+
+    public int CubePos => (X + Y*3 + Z*9);
 
     public override string ToString()
     {
-        return $"x: {x} - y: {y} - z: {z}";
+        return $"x: {X} - y: {Y} - z: {Z}";
     }
 }

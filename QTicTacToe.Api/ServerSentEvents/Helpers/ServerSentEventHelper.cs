@@ -6,23 +6,10 @@ public static class ServerSentEventHelper
 {
     public static void WriteSseMove(this HttpResponse response, MoveOutput move)
     {
-        response.WriteSseField("Id", "random");
-        response.WriteSseField("event", "random");
-        response.WriteSseField("data", $"x is {move.X}");
-        response.WriteSseField("data", $"y is {move.Y}");
-        response.WriteSseField("data", $"z is {move.Z}");
+        // response.WriteSseField("Id", "random");
+        response.WriteSseField("event", "move_placed");
+        response.WriteSseField("data", $"isValid is {move.isValid}");
         response.WriteSseField("data", $"is winner? {move.IsWinner}");
-        response.WriteSseBlockEnding();
-    }
-
-    public static void WriteSseTest(this HttpResponse response)
-    {
-        response.WriteSseField("id", "random");
-        response.WriteSseField("event", "random");
-        response.WriteSseField("data", "x is move.X");
-        response.WriteSseField("data", "y is move.Y");
-        response.WriteSseField("data", "z is move.Z");
-        response.WriteSseField("data", "is winner? move.IsWinner");
         response.WriteSseBlockEnding();
     }
 

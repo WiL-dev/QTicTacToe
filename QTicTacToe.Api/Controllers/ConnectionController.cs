@@ -15,7 +15,7 @@ public class ConnectionController : ControllerBase
     }
 
     [HttpGet("connect")]
-    public async Task SeeConnect(string client_id) {
+    public async void SeeConnect(string client_id) {
         HttpContext.Response.ContentType = "text/event-stream";
         HttpContext.Response.Headers.Add("Connection", "keep-alive");
         HttpContext.Response.Headers.Add("Cache-Control", "no-cache");

@@ -26,3 +26,4 @@ A lot of space to improve the back, but I want to keep it simple as possible, ne
 ## Acquired lessons (After starting development)
 
 - Webapp and backend are hosted in distinct origins, because ports are different, even being from the same host. Web browser adds a pre-flight request under certain circumstances like Cross-origin resource sharing (CORS). The lesson here is to add CORS policy to accept the requests, when you are working with multiple origins.
+- As the application grows, communication between components is more complex, evidencing the importance of architecture. The lesson here is to define an architecture to follow.

@@ -15,13 +15,8 @@ public class MoveInputController : ControllerBase
     }
 
     [HttpPost("move")]
-    public IActionResult ReceiveMove(string client_id, [FromBody]MoveInput move)
+    public void ReceiveMove(string client_id, [FromBody]MoveInput move)
     {
-        System.Console.WriteLine(move.ToString());
-        HttpContext.Response.Headers.Add("Cache-Control", "no-cache");
-
-        _serverSentEventsService.sendEvent("123");
-
-        return Ok(move);
+        _serverSentEventsService.ReceiveMove(client_id, move);
     }
 }
