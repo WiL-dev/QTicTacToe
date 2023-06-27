@@ -26,10 +26,12 @@ public class ServerSentEventsService : IServerSentEventsService
         _clients.TryRemove(clientId, out client);
     }
 
-    public void ReceiveMove(string clientId, MoveInput moveInput) {
+    public MoveOutput ReceiveMove(string clientId, MoveInput moveInput) {
         MoveOutput moveOutput = board.MakeMove(moveInput);
 
         this.SendMove(clientId, moveOutput);
+
+        return moveOutput;
     }
 
     private void SendMove(string clientId, MoveOutput move)

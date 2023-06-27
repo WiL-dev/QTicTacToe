@@ -9,5 +9,5 @@ public interface IServerSentEventsService
 
     void RemoveClient(string clientId);
 
-    void ReceiveMove(string clientId, MoveInput moveInput);
+    MoveOutput ReceiveMove(string clientId, MoveInput moveInput);
 }

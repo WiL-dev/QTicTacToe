@@ -15,6 +15,9 @@ public static class ServerSentEventHelper
 
     private static async void WriteSseField(this HttpResponse response, string field, string data)
     {
+        // Console.WriteLine("Waiting...");
+        // Thread.Sleep(6000);
+        // Console.WriteLine("Ok");
         await response.WriteAsync($"{field}: {data}\n");
     }
 
