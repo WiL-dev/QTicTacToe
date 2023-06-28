@@ -8,15 +8,33 @@
 <body>
     <input id="isMockupServer" type="checkbox" onchange="updateServerType(this)">Is mock up server?</input>
     <hr />
+    <form onsubmit="testMove(event)">
+        <table>
+            <tr>
+                <td>
+                    <label for="posX">X:</label>
+                    <input type="text" name="posX" id="posX">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="posY">Y:</label>
+                    <input type="text" name="posY" id="posY">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="mark">Mark:</label>
+                    <input type="text" name="mark" id="mark" value="X">
+                </td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" value="Send move">
+    </form>
+    <hr />
     <button onclick="connect()">Connect</button>
-    <button onclick="testMove()">Send move</button>
     <script>
-        const mockupMove = {
-            x: 1,
-            y: 1,
-            z: 1
-        };
-
         const mockupBackendUrl = "https://4ced842e-f28b-44bf-9b00-1a38fbacfdbb.mock.pstmn.io";
         const testBackendUrl = "http://localhost:5098";
 
@@ -30,7 +48,18 @@
                 : testBackendUrl;
         }
 
-        async function testMove() {
+        async function testMove(e) {
+            e.preventDefault();
+
+            const moveData = new FormData(e.target);
+            const move = Object.fromEntries(moveData.entries());
+
+            let mockupMove = {
+                x: move.posX,
+                y: move.posY,
+                mark: move.mark
+            };
+
             let requestUrl = `${backendUrl}/move?client_id=123`;
             console.log(requestUrl);
 
