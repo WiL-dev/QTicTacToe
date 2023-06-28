@@ -29,7 +29,7 @@ public class ServerSentEventsService : IServerSentEventsService
     public MoveOutput ReceiveMove(string clientId, MoveInput moveInput) {
         MoveOutput moveOutput = board.MakeMove(moveInput);
 
-        this.SendMove(clientId, moveOutput);
+        Task.Run(() => this.SendMove(clientId, moveOutput));
 
         return moveOutput;
     }

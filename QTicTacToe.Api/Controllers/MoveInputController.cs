@@ -17,7 +17,6 @@ public class MoveInputController : ControllerBase
     [HttpPost("move")]
     public ActionResult<MoveOutput> ReceiveMove(string client_id, [FromBody]MoveInput move)
     {
-        // TODO: Respond before sending events
         return _serverSentEventsService.ReceiveMove(client_id, move);
     }
 }
