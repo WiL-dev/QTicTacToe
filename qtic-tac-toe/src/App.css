@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.App-cube {
+  width: 60vmin;
+  height: 30vmin;
+  border: red dotted 3px;
+}
