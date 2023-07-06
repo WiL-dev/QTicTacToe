@@ -5,16 +5,20 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import './App.css';
 
 function Cube() {
+  console.log('Create cube');
   const refContainer = useRef();
   const refRenderer = useRef();
 
   useEffect(() => {
+    console.log('Mounting...');
     const { current: container } = refContainer;
     const { current: renderer } = refRenderer;
 
     if (container && !renderer) {
+      console.log('Into if');
       const containerWidth = container.clientWidth;
       const containerHeight = container.clientHeight;
+
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(
         75,
@@ -24,9 +28,11 @@ function Cube() {
       );
       const render = new THREE.WebGLRenderer();
       render.setSize(containerWidth, containerHeight);
+
       refRenderer.current = render;
 
-      container.appendChild(render.domElement);
+      const childAdded = container.appendChild(render.domElement);
+
 
       const geometry = new THREE.BoxGeometry(1, 1, 1);
       const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
@@ -38,13 +44,24 @@ function Cube() {
       const target = new THREE.Vector3(0.1, 0.1, 0.1);
       controls.target = target;
 
+      let reqAnimation;
+
       function animate() {
-        requestAnimationFrame(animate);
         // board.rotation.x += 0.01;
         // board.rotation.y += 0.005;
         render.render(scene, camera);
+        reqAnimation = requestAnimationFrame(animate);
       }
       animate();
+      console.log('Req animation: ', reqAnimation);
+
+      return () => {
+        cancelAnimationFrame(reqAnimation);
+        console.log('Cube disposed, animation req: ', reqAnimation);
+        container.removeChild(childAdded);
+        reqAnimation = undefined;
+        refRenderer.current = undefined;
+      }
     }
   }, []);
 

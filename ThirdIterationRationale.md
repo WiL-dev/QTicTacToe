@@ -23,4 +23,8 @@ Building test artifacts are outside of the task list for 2 reasons:
 - Improve the [README][1]
 - Create a deploy pipeline
 
+## Acquired lessons (After starting development)
+
+React and Three.js renders in different ways
+
 [1]:README.md
